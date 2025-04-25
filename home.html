@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Smart City Portal</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background: #ecf0f1;
+            text-align: center;
+            padding-top: 100px;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        .option-button {
+            margin: 20px;
+            padding: 15px 30px;
+            font-size: 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .option-button:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to Smart City Portal</h1>
+    <button class="option-button" onclick="location.href='/add-citizen'">Add Citizen</button>
+    <button class="option-button" onclick="location.href='/add-address'">Add Address</button>
+    <button class="option-button" onclick="location.href='/add-device'">Add Device</button>
+    <button class="option-button" onclick="location.href='/add-health'">Add Health</button>
+    <button class="option-button" onclick="location.href='/add-vehicle'">Add Vehicle</button>
+    <button class="option-button" onclick="location.href='/add-emergency'">Add Emergency</button>
+</body>
+</html>

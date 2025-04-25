@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Employee Data</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f0f2f5;
+            padding: 40px;
+        }
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        form {
+            max-width: 500px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            margin-top: 15px;
+            display: block;
+            font-weight: bold;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            margin-top: 20px;
+            padding: 12px;
+            width: 100%;
+            font-size: 16px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        #response {
+            margin-top: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h2>Add Employee Data</h2>
+    <form id="employee-form">
+        <label for="skills">Skills:</label>
+        <input type="text" id="skills" placeholder="e.g., Python, SQL" required>
+
+        <label for="projects">Projects:</label>
+        <input type="text" id="projects" placeholder="e.g., AI Project, Web App" required>
+
+        <label for="department">Department:</label>
+        <input type="text" id="department" required>
+
+        <label for="manager_name">Manager Name:</label>
+        <input type="text" id="manager_name" required>
+
+        <label for="certifications">Certifications:</label>
+        <input type="text" id="certifications" placeholder="e.g., AWS Certified, Data Science Cert" required>
+
+        <label for="hire_date">Hire Date:</label>
+        <input type="date" id="hire_date" required>
+
+        <button type="submit">Submit Employee Data</button>
+    </form>
+
+    <div id="response"></div>
+
+    <script>
+        document.getElementById("employee-form").addEventListener("submit", function(e) {
+            e.preventDefault();
+
+            const data = {
+                skills: document.getElementById("skills").value,
+                projects: document.getElementById("projects").value,
+                department: document.getElementById("department").value,
+                manager_name: document.getElementById("manager_name").value,
+                certifications: document.getElementById("certifications").value,
+                hire_date: document.getElementById("hire_date").value
+            };
+
+            fetch('/api/add-employee', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            })
+            .then(res => res.json())
+            .then(result => {
+                const div = document.getElementById("response");
+                div.style.color = "green";
+                div.innerText = result.message;
+                document.getElementById("employee-form").reset();
+            })
+            .catch(() => {
+                const div = document.getElementById("response");
+                div.style.color = "red";
+                div.innerText = "Error submitting Employee Data.";
+            });
+        });
+    </script>
+</body>
+</html>

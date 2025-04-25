@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Health Data</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f0f2f5;
+            padding: 40px;
+        }
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        form {
+            max-width: 500px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            margin-top: 15px;
+            display: block;
+            font-weight: bold;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            margin-top: 20px;
+            padding: 12px;
+            width: 100%;
+            font-size: 16px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        #response {
+            margin-top: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h2>Add Health Data</h2>
+    <form id="health-form">
+        <label for="citizen_id">Citizen ID:</label>
+        <input type="number" id="citizen_id" required>
+
+        <label for="blood_type">Blood Type:</label>
+        <input type="text" id="blood_type" required>
+
+        <label for="allergies">Allergies:</label>
+        <input type="text" id="allergies" required>
+
+        <label for="conditions">Medical Conditions:</label>
+        <input type="text" id="conditions" required>
+
+        <label for="checkup">Last Checkup Date:</label>
+        <input type="date" id="checkup" required>
+
+        <button type="submit">Submit Health Data</button>
+    </form>
+
+    <div id="response"></div>
+
+    <script>
+        document.getElementById("health-form").addEventListener("submit", function(e) {
+            e.preventDefault();
+
+            const data = {
+                citizen_id: document.getElementById("citizen_id").value,
+                blood_type: document.getElementById("blood_type").value,
+                allergies: document.getElementById("allergies").value,
+                conditions: document.getElementById("conditions").value,
+                checkup: document.getElementById("checkup").value
+            };
+
+            fetch('/api/add-health', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            })
+            .then(res => res.json())
+            .then(result => {
+                const div = document.getElementById("response");
+                div.style.color = "green";
+                div.innerText = result.message;
+                document.getElementById("health-form").reset();
+            })
+            .catch(() => {
+                const div = document.getElementById("response");
+                div.style.color = "red";
+                div.innerText = "Error submitting health data.";
+            });
+        });
+    </script>
+</body>
+</html>

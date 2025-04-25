@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Emergency Contact</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f0f2f5;
+            padding: 40px;
+        }
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        form {
+            max-width: 500px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            margin-top: 15px;
+            display: block;
+            font-weight: bold;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            margin-top: 20px;
+            padding: 12px;
+            width: 100%;
+            font-size: 16px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        #response {
+            margin-top: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h2>Add Emergency Contact</h2>
+    <form id="contact-form">
+        <label for="citizen_id">Citizen ID:</label>
+        <input type="number" id="citizen_id" required>
+
+        <label for="contact_name">Contact Name:</label>
+        <input type="text" id="contact_name" required>
+
+        <label for="relationship">Relationship:</label>
+        <input type="text" id="relationship" required>
+
+        <label for="phone_number">Phone Number:</label>
+        <input type="text" id="phone_number" pattern="\d{3}-\d{4}" placeholder="555-0201" required>
+
+        <label for="address">Address:</label>
+        <input type="text" id="address" required>
+
+        <button type="submit">Submit Contact</button>
+    </form>
+
+    <div id="response"></div>
+
+    <script>
+        document.getElementById("contact-form").addEventListener("submit", function(e) {
+            e.preventDefault();
+
+            const data = {
+                citizen_id: document.getElementById("citizen_id").value,
+                contact_name: document.getElementById("contact_name").value,
+                relationship: document.getElementById("relationship").value,
+                phone_number: document.getElementById("phone_number").value,
+                address: document.getElementById("address").value
+            };
+
+            fetch('/api/add-contact', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            })
+            .then(res => res.json())
+            .then(result => {
+                const div = document.getElementById("response");
+                div.style.color = "green";
+                div.innerText = result.message;
+                document.getElementById("contact-form").reset();
+            })
+            .catch(() => {
+                const div = document.getElementById("response");
+                div.style.color = "red";
+                div.innerText = "Error submitting Contact Data.";
+            });
+        });
+    </script>
+</body>
+</html>
